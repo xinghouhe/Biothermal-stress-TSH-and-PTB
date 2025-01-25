@@ -1,0 +1,4 @@
+data$PTB<-ifelse(data$Gestational_age<37,"PTB","Full_term")
+data$PTB_subtypes<-ifelse(data$Gestational_age<28,"EPTB",
+                          ifelse(data$Gestational_age<32,"VPTB",
+                                 ifelse(data$Gestational_age<37,"MPTB","Full_term")))
