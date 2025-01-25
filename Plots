@@ -1,0 +1,100 @@
+###### Forest plots#####
+library(ggplot2)
+library(openxlsx)
+forest<- read_excel("~\\Biothermal_stress_TSH.xlsx")
+forest<-subset(forest,forest$Outcome=="PTB"&forest$exposure_window=="First_trimester")
+forest$"HR (95%CI)" <- ifelse(is.na(forest$"HR (95%CI)")," ",forest$"HR (95%CI)")
+forest$"p-value" <- ifelse(is.na(forest$"p-value"),"",forest$"p-value")
+forest$` ` <- paste(rep(" ", 20), collapse = " ")
+tm <- forest_theme(base_size=15,base_family = "",
+                   ci_pch = 15,ci_col="black",
+                   ci_fill = "#4575b4",
+                   ci_lty = 1,ci_lwd = 2,ci_Theight = 0.2,
+                   xaxis_lwd = 0.6,xaxis_cex = 1,
+                   refline_lwd = 1,refline_lty = "dashed",refline_col = "red")
+colnames(forest)
+plot1 <- forest(forest[,c(4,5,11,9)],
+                est = list(forest$"HR"),
+                lower = list(forest$Lower),
+                upper = list(forest$Upper),
+                sizes= 1, 
+                ci_column=c(3),
+                ref_line = 1,
+                xlab='HR',
+                xlim = c(1,2),
+                ticks_at = c(1,1.5,2),
+                theme = tm)
+g<-edit_plot(plot1,row= c(2:4,6:8),which = "background", gp=gpar(fill="white"))
+p1<-edit_plot(g,row= c(1,5), gp=gpar(fontface = "bold"))
+p1
+
+###### PAF plot####
+data<-read_excel("~\\PAF.xlsx")
+head(data)
+data$exposure <- factor(data$exposure, levels = c("Non-thermal stress and supranormal TSH","Non-thermal stress and subnormal TSH","Heat stress and normal TSH","Heat stress and supranormal TSH","Heat stress and subnormal TSH",
+                                                  "Cold stress and normal TSH","Cold stress and supranormal TSH","Cold stress and subnormal TSH))
+p1 <- data %>% 
+  ggplot(aes(y=trimester,x =PAF,fill =exposure)) + 
+  geom_bar(stat = "identity",width = 0.55)+
+  scale_fill_manual(values=met.brewer("Derain",15))+
+  scale_x_continuous(guide = "prism_minor",expand = c(0,0),limits=c(0,10.5))+
+  labs(x="PAF (%)",y=NULL)+
+  theme(axis.text.y=element_text(color="black",size=15,margin=margin(r=1)),
+        axis.text.x=element_text(color="black",size=15,margin=margin(t=8)),
+        axis.title.x = element_text(size=20,margin=margin(t=8),color="black",face="bold"),
+        plot.margin=unit(c(0.3,1,0.3,0.3),units=,"cm"), 
+        panel.background = element_blank(),   
+        prism.ticks.length.y = unit(5, "pt"),
+        prism.ticks.length.x = unit(-5, "pt"),
+        axis.line = element_line(color="black"),
+        axis.ticks.length.x = unit(-.2, "cm"),
+        axis.ticks.length.y = unit(.2, "cm"),
+        legend.key = element_blank(),
+        legend.background = element_blank(),
+        legend.title = element_blank(),
+        legend.text=element_text(size=20,color="black"),
+        legend.spacing.x=unit(0.1,'cm'),
+        legend.key.width=unit(1,"cm"),
+        legend.key.height=unit(1,"cm"),
+        legend.position = "none", 
+        legend.justification = c(0,1))+
+  guides(color = guide_legend(byrow = TRUE,ncol = 3),
+         fill = guide_legend(byrow = TRUE,ncol = 3),
+         shape = guide_legend(byrow = TRUE,ncol = 3))
+p1
+
+p2 <- data %>% 
+  ggplot(aes(y=trimester,x =AN,fill =exposure)) + 
+  geom_bar(stat = "identity",width = 0.55)+
+  scale_fill_manual(values=met.brewer("Derain",15))+
+  scale_x_continuous(guide = "prism_minor",expand = c(0,0),limits=c(0,60000),breaks=seq(0,60000,10000),labels=c(0,"10,000","20,000","30,000","40,000","50,000","60,000"))+
+  labs(x="Number of preterm births",y=NULL)+
+  theme(axis.text.y=element_text(color="black",size=15,margin=margin(r=1)),
+        axis.text.x=element_text(color="black",size=15,margin=margin(t=8)),
+        axis.title.x = element_text(size=20,margin=margin(t=8),color="black",face="bold"),
+        plot.margin=unit(c(0.3,1,0.3,0.3),units=,"cm"), 
+        panel.background = element_blank(),  
+        prism.ticks.length.y = unit(5, "pt"),
+        prism.ticks.length.x = unit(-5, "pt"),
+        axis.line = element_line(color="black"),
+        axis.ticks.length.x = unit(-.2, "cm"),
+        axis.ticks.length.y = unit(.2, "cm"),
+        legend.key = element_blank(),
+        legend.background = element_blank(),
+        legend.title = element_blank(),
+        legend.text=element_text(size=15,color="black"),
+        legend.spacing.x=unit(0.1,'cm'),
+        legend.key.width=unit(0.8,"cm"),
+        legend.key.height=unit(0.8,"cm"),
+        legend.position = "bottom", 
+        legend.justification = c(0,1))+
+  guides(color = guide_legend(byrow = TRUE,ncol = 2),
+         fill = guide_legend(byrow = TRUE,ncol = 2),
+         shape = guide_legend(byrow = TRUE,ncol = 2))
+p2
+
+
+tiff("~\\PAF.tiff",height=2500,width=2500,res = 300)
+p<-plot_grid(p1,p2,ncol=1,nrow = 2,align = 'v',rel_heights = c(0.7,1))
+p
+dev.off()
