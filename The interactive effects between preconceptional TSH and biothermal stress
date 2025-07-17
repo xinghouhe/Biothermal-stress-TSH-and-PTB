@@ -1,7 +1,7 @@
 library(interactionR)
 data$Outcome<-data$PTB
 model1<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester*TSH_classification+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 summary(modle1)
 table_object1 = interactionR(modle1, exposure_names = c("Biothermal_stress_first_trimester1","TSH_classification2"), ci.type = "mover", ci.level = 0.95, em = F, recode = F)
@@ -9,13 +9,13 @@ table_object2 = interactionR(modle1, exposure_names = c("Biothermal_stress_first
 
 
 model2<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimeste+Biothermal_stress_second_trimesterr*TSH_classification+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model2)
 table_object3 = interactionR(modle2, exposure_names = c("Biothermal_stress_second_trimester1","TSH_classification2"), ci.type = "mover", ci.level = 0.95, em = F, recode = F)
 table_object4 = interactionR(modle2, exposure_names = c("Biothermal_stress_second_trimester1","TSH_classification3"), ci.type = "mover", ci.level = 0.95, em = F, recode = F)
 
 model3<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimeste+Biothermal_stress_second_trimesterr+Biothermal_stress_third_trimester*TSH_classification+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model3)
 table_object5 = interactionR(modle3, exposure_names = c("Biothermal_stress_second_trimester1","TSH_classification2"), ci.type = "mover", ci.level = 0.95, em = F, recode = F)
 table_object6 = interactionR(modle3, exposure_names = c("Biothermal_stress_second_trimester1","TSH_classification3"), ci.type = "mover", ci.level = 0.95, em = F, recode = F)
