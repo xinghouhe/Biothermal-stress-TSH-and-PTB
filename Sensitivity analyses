@@ -1,9 +1,9 @@
 ###Adjusting for air pollution exposure 
 model1<-coxph(Surv(Gestational_age,Outcome)~PM2.5+Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 model2<-coxph(Surv(Gestational_age,Outcome)~O3+Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model2)
 #####Exposure estimated by using ambient temperature
 data <- data %>%
@@ -40,20 +40,20 @@ data$TEMP_exposure_third_trimester<-ifelse(data$TEMP_third_trimester<data$q10,"2
 data$TEMP_exposure_third_trimester<-as.factor(data$TEMP_exposure_third_trimester)
 
 model<-coxph(Surv(Gestational_age,Outcome)~TEMP_exposure_first_trimester+TEMP_exposure_second_trimester+TEMP_exposure_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex)+ns(Relative_humidity,6),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+ns(Relative_humidity,6),data=data,na.action="na.exclude")
 summary(model)
 
 ###Adjusted for mode of delivery
 model1<-coxph(Surv(Gestational_age,Outcome)~factor(mode_delivery)+Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 #####Adjusted for pesticide and radiation
 model1<-coxph(Surv(Gestational_age,Outcome)~factor(pesticide)+Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 
 model2<-coxph(Surv(Gestational_age,Outcome)~factor(radiation)+Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model2)
 
 ###Analysis using imputed data
@@ -61,11 +61,11 @@ library(mice)
 imputed_data <- mice(data, method = "polyreg", m = 5, seed = 500)
 completed_data <- complete(imputed_data, 1)
 model1<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=completed_data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=completed_data,na.action="na.exclude")
 summary(model1)
 #####Excluded the births missing values of covariates 
 gh<-which(data$Gestational_age>=42)
 data1<-data[-gh,]
 model1<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data1,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data1,na.action="na.exclude")
 summary(model1)
