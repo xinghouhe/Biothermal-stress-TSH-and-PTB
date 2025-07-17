@@ -4,23 +4,23 @@ data$TSH_classification<-ifelse(data$TSH_levels>=0.37&data$TSH_levels<4.88,"1",
 data$TSH_classification<-as.factor(data$TSH_classification)
 
 model1<-coxph(Surv(Gestational_age,Outcome)~TSH_classification+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="MPTB",1,NA))
 model2<-coxph(Surv(Gestational_age,Outcome)~TSH_classification+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model2)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="VPTB",1,NA))
 model3<-coxph(Surv(Gestational_age,Outcome)~TSH_classification+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model3)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="EPTB",1,NA))
 model4<-coxph(Surv(Gestational_age,Outcome)~TSH_classification+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model4)
