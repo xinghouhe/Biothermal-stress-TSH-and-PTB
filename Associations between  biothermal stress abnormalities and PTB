@@ -35,23 +35,23 @@ library(data.table)
 library(survival)
 data$Outcome<-data$PTB
 model1<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model1)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="MPTB",1,NA))
 model2<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model2)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="VPTB",1,NA))
 model3<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model3)
 
 data$Outcome<-ifelse(data$PTB_subtypes=="Full_term",0,
                      ifelse(data$PTB_subtypes=="EPTB",1,NA))
 model4<-coxph(Surv(Gestational_age,Outcome)~Biothermal_stress_first_trimester+Biothermal_stress_second_trimester+Biothermal_stress_third_trimester+factor(Maternal_age)+factor(Maternal_BMI)+factor(Smoking)+factor(Education)+factor(Birth_year)+
-                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region)+factor(Neonate_sex),data=data,na.action="na.exclude")
+                factor(Drinking)+factor(Occupation)+factor(Folic_acid_use)+factor(Conception_season)+factor(Geographical_region),data=data,na.action="na.exclude")
 summary(model4)
